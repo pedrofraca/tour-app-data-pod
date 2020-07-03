@@ -15,30 +15,28 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma clang diagnostic ignored "-Wnullability"
 
-@interface KotlinBase : NSObject
+__attribute__((swift_name("KotlinBase")))
+@interface DataBase : NSObject
 - (instancetype)init __attribute__((unavailable));
 + (instancetype)new __attribute__((unavailable));
 + (void)initialize __attribute__((objc_requires_super));
 @end;
 
-@interface KotlinBase (KotlinBaseCopying) <NSCopying>
+@interface DataBase (DataBaseCopying) <NSCopying>
 @end;
 
-__attribute__((objc_runtime_name("KotlinMutableSet")))
 __attribute__((swift_name("KotlinMutableSet")))
 @interface DataMutableSet<ObjectType> : NSMutableSet<ObjectType>
 @end;
 
-__attribute__((objc_runtime_name("KotlinMutableDictionary")))
 __attribute__((swift_name("KotlinMutableDictionary")))
 @interface DataMutableDictionary<KeyType, ObjectType> : NSMutableDictionary<KeyType, ObjectType>
 @end;
 
-@interface NSError (NSErrorKotlinException)
+@interface NSError (NSErrorDataKotlinException)
 @property (readonly) id _Nullable kotlinException;
 @end;
 
-__attribute__((objc_runtime_name("KotlinNumber")))
 __attribute__((swift_name("KotlinNumber")))
 @interface DataNumber : NSNumber
 - (instancetype)initWithChar:(char)value __attribute__((unavailable));
@@ -73,77 +71,66 @@ __attribute__((swift_name("KotlinNumber")))
 + (instancetype)numberWithUnsignedInteger:(NSUInteger)value __attribute__((unavailable));
 @end;
 
-__attribute__((objc_runtime_name("KotlinByte")))
 __attribute__((swift_name("KotlinByte")))
 @interface DataByte : DataNumber
 - (instancetype)initWithChar:(char)value;
 + (instancetype)numberWithChar:(char)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinUByte")))
 __attribute__((swift_name("KotlinUByte")))
 @interface DataUByte : DataNumber
 - (instancetype)initWithUnsignedChar:(unsigned char)value;
 + (instancetype)numberWithUnsignedChar:(unsigned char)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinShort")))
 __attribute__((swift_name("KotlinShort")))
 @interface DataShort : DataNumber
 - (instancetype)initWithShort:(short)value;
 + (instancetype)numberWithShort:(short)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinUShort")))
 __attribute__((swift_name("KotlinUShort")))
 @interface DataUShort : DataNumber
 - (instancetype)initWithUnsignedShort:(unsigned short)value;
 + (instancetype)numberWithUnsignedShort:(unsigned short)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinInt")))
 __attribute__((swift_name("KotlinInt")))
 @interface DataInt : DataNumber
 - (instancetype)initWithInt:(int)value;
 + (instancetype)numberWithInt:(int)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinUInt")))
 __attribute__((swift_name("KotlinUInt")))
 @interface DataUInt : DataNumber
 - (instancetype)initWithUnsignedInt:(unsigned int)value;
 + (instancetype)numberWithUnsignedInt:(unsigned int)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinLong")))
 __attribute__((swift_name("KotlinLong")))
 @interface DataLong : DataNumber
 - (instancetype)initWithLongLong:(long long)value;
 + (instancetype)numberWithLongLong:(long long)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinULong")))
 __attribute__((swift_name("KotlinULong")))
 @interface DataULong : DataNumber
 - (instancetype)initWithUnsignedLongLong:(unsigned long long)value;
 + (instancetype)numberWithUnsignedLongLong:(unsigned long long)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinFloat")))
 __attribute__((swift_name("KotlinFloat")))
 @interface DataFloat : DataNumber
 - (instancetype)initWithFloat:(float)value;
 + (instancetype)numberWithFloat:(float)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinDouble")))
 __attribute__((swift_name("KotlinDouble")))
 @interface DataDouble : DataNumber
 - (instancetype)initWithDouble:(double)value;
 + (instancetype)numberWithDouble:(double)value;
 @end;
 
-__attribute__((objc_runtime_name("KotlinBoolean")))
 __attribute__((swift_name("KotlinBoolean")))
 @interface DataBoolean : DataNumber
 - (instancetype)initWithBool:(BOOL)value;
@@ -183,7 +170,7 @@ __attribute__((swift_name("StageRepository")))
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("StagesRepositoryImpl")))
-@interface DataStagesRepositoryImpl : KotlinBase <DataStageRepository>
+@interface DataStagesRepositoryImpl : DataBase <DataStageRepository>
 - (instancetype)initWithApiDataSource:(id<DataReadOnlyDataSource>)apiDataSource databaseDataSource:(id<DataWriteDataSource>)databaseDataSource __attribute__((swift_name("init(apiDataSource:databaseDataSource:)"))) __attribute__((objc_designated_initializer));
 - (NSArray<DataDomainStageModel *> *)refresh __attribute__((swift_name("refresh()")));
 @property (readonly) NSArray<DataDomainStageModel *> *stages __attribute__((swift_name("stages")));
@@ -198,7 +185,7 @@ __attribute__((swift_name("ClassificationRepository")))
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("ClassificationRepositoryImpl")))
-@interface DataClassificationRepositoryImpl : KotlinBase <DataClassificationRepository>
+@interface DataClassificationRepositoryImpl : DataBase <DataClassificationRepository>
 - (instancetype)initWithApi:(id<DataReadOnlyDataSourceWithFilter>)api db:(id<DataWriteDataSourceWithFilter>)db __attribute__((swift_name("init(api:db:)"))) __attribute__((objc_designated_initializer));
 - (DataDomainStageClassificationModel *)getClassificationForStageStage:(NSString *)stage __attribute__((swift_name("getClassificationForStage(stage:)")));
 - (DataDomainStageClassificationModel *)refreshForStageStage:(NSString *)stage __attribute__((swift_name("refreshForStage(stage:)")));
@@ -206,7 +193,7 @@ __attribute__((swift_name("ClassificationRepositoryImpl")))
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainStageModel")))
-@interface DataDomainStageModel : KotlinBase
+@interface DataDomainStageModel : DataBase
 - (instancetype)initWithName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl date:(NSString * _Nullable)date stage:(NSString *)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:winner:leader:images:description:km:imgUrl:date:stage:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
 - (BOOL)completed __attribute__((swift_name("completed()")));
 - (NSString *)component1 __attribute__((swift_name("component1()")));
@@ -239,7 +226,7 @@ __attribute__((swift_name("DomainStageModel")))
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainStageClassificationModel")))
-@interface DataDomainStageClassificationModel : KotlinBase
+@interface DataDomainStageClassificationModel : DataBase
 - (instancetype)initWithMountain:(NSArray<DataDomainClassificationModel *> *)mountain team:(NSArray<DataDomainClassificationModel *> *)team general:(NSArray<DataDomainClassificationModel *> *)general regularity:(NSArray<DataDomainClassificationModel *> *)regularity stageClassification:(NSArray<DataDomainClassificationModel *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("init(mountain:team:general:regularity:stageClassification:stage:)"))) __attribute__((objc_designated_initializer));
 - (NSArray<DataDomainClassificationModel *> *)component1 __attribute__((swift_name("component1()")));
 - (NSArray<DataDomainClassificationModel *> *)component2 __attribute__((swift_name("component2()")));
@@ -261,7 +248,7 @@ __attribute__((swift_name("DomainStageClassificationModel")))
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainClassificationModel")))
-@interface DataDomainClassificationModel : KotlinBase
+@interface DataDomainClassificationModel : DataBase
 - (instancetype)initWithTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("init(time:country:team:pos:rider:)"))) __attribute__((objc_designated_initializer));
 - (NSString * _Nullable)component1 __attribute__((swift_name("component1()")));
 - (NSString * _Nullable)component2 __attribute__((swift_name("component2()")));
