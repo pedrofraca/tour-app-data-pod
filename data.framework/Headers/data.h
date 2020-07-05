@@ -6,9 +6,9 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSValue.h>
 
-@class DataDomainStageModel, DataDomainStageClassificationModel, DataDomainClassificationModel;
+@class DataDomainStageModel, DataStagesRepositoryImpl, DataDomainStageClassificationModel, DataDomainClassificationModel;
 
-@protocol DataReadOnlyDataSource, DataReadOnlyDataSourceWithFilter, DataStageRepository, DataWriteDataSource, DataClassificationRepository, DataWriteDataSourceWithFilter;
+@protocol DataReadOnlyDataSource, DataReadOnlyDataSourceWithFilter, DataWriteDataSource, DataStageRepository, DataClassificationRepository, DataWriteDataSourceWithFilter;
 
 NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
@@ -169,6 +169,13 @@ __attribute__((swift_name("StageRepository")))
 @end;
 
 __attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("StagesRepositoryFactory")))
+@interface DataStagesRepositoryFactory : DataBase
+- (instancetype)init __attribute__((swift_name("init()"))) __attribute__((objc_designated_initializer));
++ (instancetype)new __attribute__((availability(swift, unavailable, message="use object initializers instead")));
+- (DataStagesRepositoryImpl *)buildApiDataSource:(id<DataReadOnlyDataSource>)apiDataSource databaseDataSource:(id<DataWriteDataSource>)databaseDataSource __attribute__((swift_name("build(apiDataSource:databaseDataSource:)")));
+@end;
+
 __attribute__((swift_name("StagesRepositoryImpl")))
 @interface DataStagesRepositoryImpl : DataBase <DataStageRepository>
 - (instancetype)initWithApiDataSource:(id<DataReadOnlyDataSource>)apiDataSource databaseDataSource:(id<DataWriteDataSource>)databaseDataSource __attribute__((swift_name("init(apiDataSource:databaseDataSource:)"))) __attribute__((objc_designated_initializer));
