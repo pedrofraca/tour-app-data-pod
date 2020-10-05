@@ -201,7 +201,7 @@ __attribute__((swift_name("ClassificationRepositoryImpl")))
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainStageModel")))
 @interface DataDomainStageModel : DataBase
-- (instancetype)initWithName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl date:(NSString * _Nullable)date stage:(NSString *)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:winner:leader:images:description:km:imgUrl:date:stage:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
+- (instancetype)initWithName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl date:(NSString * _Nullable)date stage:(int32_t)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:winner:leader:images:description:km:imgUrl:date:stage:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
 - (BOOL)completed __attribute__((swift_name("completed()")));
 - (NSString *)component1 __attribute__((swift_name("component1()")));
 - (NSString * _Nullable)component10 __attribute__((swift_name("component10()")));
@@ -213,8 +213,8 @@ __attribute__((swift_name("DomainStageModel")))
 - (NSString * _Nullable)component6 __attribute__((swift_name("component6()")));
 - (NSString * _Nullable)component7 __attribute__((swift_name("component7()")));
 - (NSString * _Nullable)component8 __attribute__((swift_name("component8()")));
-- (NSString *)component9 __attribute__((swift_name("component9()")));
-- (DataDomainStageModel *)doCopyName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl date:(NSString * _Nullable)date stage:(NSString *)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("doCopy(name:winner:leader:images:description:km:imgUrl:date:stage:averageSpeed:startFinish:)")));
+- (int32_t)component9 __attribute__((swift_name("component9()")));
+- (DataDomainStageModel *)doCopyName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl date:(NSString * _Nullable)date stage:(int32_t)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("doCopy(name:winner:leader:images:description:km:imgUrl:date:stage:averageSpeed:startFinish:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
 - (NSString *)description __attribute__((swift_name("description()")));
@@ -226,7 +226,7 @@ __attribute__((swift_name("DomainStageModel")))
 @property (readonly) NSString * _Nullable km __attribute__((swift_name("km")));
 @property (readonly) NSString * _Nullable leader __attribute__((swift_name("leader")));
 @property (readonly) NSString *name __attribute__((swift_name("name")));
-@property (readonly) NSString *stage __attribute__((swift_name("stage")));
+@property (readonly) int32_t stage __attribute__((swift_name("stage")));
 @property (readonly) NSString * _Nullable startFinish __attribute__((swift_name("startFinish")));
 @property (readonly) NSString * _Nullable winner __attribute__((swift_name("winner")));
 @end;
