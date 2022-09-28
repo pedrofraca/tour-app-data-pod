@@ -6,15 +6,21 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSValue.h>
 
-@class DataDomainStageModel, DataStagesRepositoryImpl, DataDomainStageClassificationModel, DataDomainClassificationModel;
+@class DataStagesRepositoryImpl, DataDomainStage, DataUsecaseSetStageAsFavoriteParam, DataDomainRankeableStage, DataDomainStageClassification, DataDomainClassification;
 
-@protocol DataReadOnlyDataSource, DataReadOnlyDataSourceWithFilter, DataWriteDataSource, DataStageRepository, DataClassificationRepository, DataWriteDataSourceWithFilter;
+@protocol DataReadOnlyDataSource, DataReadOnlyDataSourceWithFilter, DataWriteDataSource, DataUsecaseStageRepository, DataUsecaseFavouritesRepository, DataUsecaseRankeableStageRepository, DataClassificationRepository, DataWriteDataSourceWithFilter;
 
 NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma clang diagnostic ignored "-Wincompatible-property-type"
 #pragma clang diagnostic ignored "-Wnullability"
+
+#pragma push_macro("_Nullable_result")
+#if !__has_feature(nullability_nullable_result)
+#undef _Nullable_result
+#define _Nullable_result _Nullable
+#endif
 
 __attribute__((swift_name("KotlinBase")))
 @interface DataBase : NSObject
@@ -153,20 +159,13 @@ __attribute__((swift_name("ReadOnlyDataSourceWithFilter")))
 __attribute__((swift_name("WriteDataSource")))
 @protocol DataWriteDataSource <DataReadOnlyDataSource>
 @required
-- (void)saveItem:(id _Nullable)item __attribute__((swift_name("save(item:)")));
+- (BOOL)saveItem:(id _Nullable)item __attribute__((swift_name("save(item:)")));
 @end;
 
 __attribute__((swift_name("WriteDataSourceWithFilter")))
 @protocol DataWriteDataSourceWithFilter <DataReadOnlyDataSourceWithFilter>
 @required
-- (void)saveItem_:(id _Nullable)item __attribute__((swift_name("save(item_:)")));
-@end;
-
-__attribute__((swift_name("StageRepository")))
-@protocol DataStageRepository
-@required
-- (NSArray<DataDomainStageModel *> *)refresh __attribute__((swift_name("refresh()")));
-@property (readonly) NSArray<DataDomainStageModel *> *stages __attribute__((swift_name("stages")));
+- (BOOL)saveItem:(id _Nullable)item param:(id _Nullable)param __attribute__((swift_name("save(item:param:)")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
@@ -177,52 +176,93 @@ __attribute__((swift_name("StagesRepositoryFactory")))
 - (DataStagesRepositoryImpl *)buildApiDataSource:(id<DataReadOnlyDataSource>)apiDataSource databaseDataSource:(id<DataWriteDataSource>)databaseDataSource __attribute__((swift_name("build(apiDataSource:databaseDataSource:)")));
 @end;
 
+__attribute__((swift_name("UsecaseStageRepository")))
+@protocol DataUsecaseStageRepository
+@required
+- (DataDomainStage * _Nullable)getStageByIdStageId:(int32_t)stageId __attribute__((swift_name("getStageById(stageId:)")));
+- (NSArray<DataDomainStage *> *)refresh __attribute__((swift_name("refresh()")));
+@property (readonly) NSArray<DataDomainStage *> *stages __attribute__((swift_name("stages")));
+@end;
+
 __attribute__((swift_name("StagesRepositoryImpl")))
-@interface DataStagesRepositoryImpl : DataBase <DataStageRepository>
-- (instancetype)initWithApiDataSource:(id<DataReadOnlyDataSource>)apiDataSource databaseDataSource:(id<DataWriteDataSource>)databaseDataSource __attribute__((swift_name("init(apiDataSource:databaseDataSource:)"))) __attribute__((objc_designated_initializer));
-- (NSArray<DataDomainStageModel *> *)refresh __attribute__((swift_name("refresh()")));
-@property (readonly) NSArray<DataDomainStageModel *> *stages __attribute__((swift_name("stages")));
+@interface DataStagesRepositoryImpl : DataBase <DataUsecaseStageRepository>
+- (instancetype)initWithReadDataSource:(id<DataReadOnlyDataSource>)readDataSource persistenceDataSource:(id<DataWriteDataSource>)persistenceDataSource __attribute__((swift_name("init(readDataSource:persistenceDataSource:)"))) __attribute__((objc_designated_initializer));
+- (DataDomainStage * _Nullable)getStageByIdStageId:(int32_t)stageId __attribute__((swift_name("getStageById(stageId:)")));
+- (NSArray<DataDomainStage *> *)refresh __attribute__((swift_name("refresh()")));
+@property (readonly) NSArray<DataDomainStage *> *stages __attribute__((swift_name("stages")));
+@end;
+
+__attribute__((swift_name("UsecaseFavouritesRepository")))
+@protocol DataUsecaseFavouritesRepository
+@required
+- (NSArray<DataUsecaseSetStageAsFavoriteParam *> *)getFavouriteStagesByUsernameUsername:(NSString *)username __attribute__((swift_name("getFavouriteStagesByUsername(username:)")));
+- (DataUsecaseSetStageAsFavoriteParam * _Nullable)getStageByUsernameStageId:(int32_t)stageId username:(NSString *)username __attribute__((swift_name("getStageByUsername(stageId:username:)")));
+- (BOOL)setFavouriteStageParam:(DataUsecaseSetStageAsFavoriteParam *)param __attribute__((swift_name("setFavouriteStage(param:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("FavouritesRepositoryImpl")))
+@interface DataFavouritesRepositoryImpl : DataBase <DataUsecaseFavouritesRepository>
+- (instancetype)initWithSetFavouriteApi:(id<DataWriteDataSource>)setFavouriteApi favouritesListApi:(id<DataReadOnlyDataSourceWithFilter>)favouritesListApi __attribute__((swift_name("init(setFavouriteApi:favouritesListApi:)"))) __attribute__((objc_designated_initializer));
+- (NSArray<DataUsecaseSetStageAsFavoriteParam *> *)getFavouriteStagesByUsernameUsername:(NSString *)username __attribute__((swift_name("getFavouriteStagesByUsername(username:)")));
+- (DataUsecaseSetStageAsFavoriteParam * _Nullable)getStageByUsernameStageId:(int32_t)stageId username:(NSString *)username __attribute__((swift_name("getStageByUsername(stageId:username:)")));
+- (BOOL)setFavouriteStageParam:(DataUsecaseSetStageAsFavoriteParam *)param __attribute__((swift_name("setFavouriteStage(param:)")));
+@end;
+
+__attribute__((swift_name("UsecaseRankeableStageRepository")))
+@protocol DataUsecaseRankeableStageRepository
+@required
+- (NSArray<DataDomainRankeableStage *> *)refresh __attribute__((swift_name("refresh()")));
+@property (readonly) NSArray<DataDomainRankeableStage *> *rankeableStages __attribute__((swift_name("rankeableStages")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("RankeableStageRepositoryImpl")))
+@interface DataRankeableStageRepositoryImpl : DataBase <DataUsecaseRankeableStageRepository>
+- (instancetype)initWithDataSource:(id<DataReadOnlyDataSource>)dataSource __attribute__((swift_name("init(dataSource:)"))) __attribute__((objc_designated_initializer));
+- (NSArray<DataDomainRankeableStage *> *)refresh __attribute__((swift_name("refresh()")));
+@property (readonly) NSArray<DataDomainRankeableStage *> *rankeableStages __attribute__((swift_name("rankeableStages")));
 @end;
 
 __attribute__((swift_name("ClassificationRepository")))
 @protocol DataClassificationRepository
 @required
-- (DataDomainStageClassificationModel *)getClassificationForStageStage:(NSString *)stage __attribute__((swift_name("getClassificationForStage(stage:)")));
-- (DataDomainStageClassificationModel *)refreshForStageStage:(NSString *)stage __attribute__((swift_name("refreshForStage(stage:)")));
+- (DataDomainStageClassification *)getClassificationForStageStage:(NSString *)stage __attribute__((swift_name("getClassificationForStage(stage:)")));
+- (DataDomainStageClassification *)refreshForStageStage:(NSString *)stage __attribute__((swift_name("refreshForStage(stage:)")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("ClassificationRepositoryImpl")))
 @interface DataClassificationRepositoryImpl : DataBase <DataClassificationRepository>
 - (instancetype)initWithApi:(id<DataReadOnlyDataSourceWithFilter>)api db:(id<DataWriteDataSourceWithFilter>)db __attribute__((swift_name("init(api:db:)"))) __attribute__((objc_designated_initializer));
-- (DataDomainStageClassificationModel *)getClassificationForStageStage:(NSString *)stage __attribute__((swift_name("getClassificationForStage(stage:)")));
-- (DataDomainStageClassificationModel *)refreshForStageStage:(NSString *)stage __attribute__((swift_name("refreshForStage(stage:)")));
+- (DataDomainStageClassification *)getClassificationForStageStage:(NSString *)stage __attribute__((swift_name("getClassificationForStage(stage:)")));
+- (DataDomainStageClassification *)refreshForStageStage:(NSString *)stage __attribute__((swift_name("refreshForStage(stage:)")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
-__attribute__((swift_name("DomainStageModel")))
-@interface DataDomainStageModel : DataBase
-- (instancetype)initWithName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date stage:(int32_t)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:winner:leader:images:description:km:imgUrl:profileImgUrl:date:stage:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
+__attribute__((swift_name("DomainStage")))
+@interface DataDomainStage : DataBase
+- (instancetype)initWithName:(NSString *)name stage:(int32_t)stage winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:stage:winner:leader:images:description:km:imgUrl:profileImgUrl:date:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
 - (BOOL)completed __attribute__((swift_name("completed()")));
 - (NSString *)component1 __attribute__((swift_name("component1()")));
-- (int32_t)component10 __attribute__((swift_name("component10()")));
+- (NSString * _Nullable)component10 __attribute__((swift_name("component10()")));
 - (NSString * _Nullable)component11 __attribute__((swift_name("component11()")));
 - (NSString * _Nullable)component12 __attribute__((swift_name("component12()")));
-- (NSString * _Nullable)component2 __attribute__((swift_name("component2()")));
+- (int32_t)component2 __attribute__((swift_name("component2()")));
 - (NSString * _Nullable)component3 __attribute__((swift_name("component3()")));
-- (NSArray<NSString *> * _Nullable)component4 __attribute__((swift_name("component4()")));
-- (NSString * _Nullable)component5 __attribute__((swift_name("component5()")));
+- (NSString * _Nullable)component4 __attribute__((swift_name("component4()")));
+- (NSArray<NSString *> * _Nullable)component5 __attribute__((swift_name("component5()")));
 - (NSString * _Nullable)component6 __attribute__((swift_name("component6()")));
 - (NSString * _Nullable)component7 __attribute__((swift_name("component7()")));
 - (NSString * _Nullable)component8 __attribute__((swift_name("component8()")));
 - (NSString * _Nullable)component9 __attribute__((swift_name("component9()")));
-- (DataDomainStageModel *)doCopyName:(NSString *)name winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date stage:(int32_t)stage averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("doCopy(name:winner:leader:images:description:km:imgUrl:profileImgUrl:date:stage:averageSpeed:startFinish:)")));
+- (DataDomainStage *)doCopyName:(NSString *)name stage:(int32_t)stage winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("doCopy(name:stage:winner:leader:images:description:km:imgUrl:profileImgUrl:date:averageSpeed:startFinish:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
 - (NSString *)description __attribute__((swift_name("description()")));
 @property (readonly) NSString * _Nullable averageSpeed __attribute__((swift_name("averageSpeed")));
 @property (readonly) NSString * _Nullable date __attribute__((swift_name("date")));
-@property (readonly, getter=description_) NSString * _Nullable description __attribute__((swift_name("description")));
+@property (readonly) NSString * _Nullable description_ __attribute__((swift_name("description_")));
 @property (readonly) NSArray<NSString *> * _Nullable images __attribute__((swift_name("images")));
 @property (readonly) NSString * _Nullable imgUrl __attribute__((swift_name("imgUrl")));
 @property (readonly) NSString * _Nullable km __attribute__((swift_name("km")));
@@ -235,37 +275,67 @@ __attribute__((swift_name("DomainStageModel")))
 @end;
 
 __attribute__((objc_subclassing_restricted))
-__attribute__((swift_name("DomainStageClassificationModel")))
-@interface DataDomainStageClassificationModel : DataBase
-- (instancetype)initWithMountain:(NSArray<DataDomainClassificationModel *> *)mountain team:(NSArray<DataDomainClassificationModel *> *)team general:(NSArray<DataDomainClassificationModel *> *)general regularity:(NSArray<DataDomainClassificationModel *> *)regularity stageClassification:(NSArray<DataDomainClassificationModel *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("init(mountain:team:general:regularity:stageClassification:stage:)"))) __attribute__((objc_designated_initializer));
-- (NSArray<DataDomainClassificationModel *> *)component1 __attribute__((swift_name("component1()")));
-- (NSArray<DataDomainClassificationModel *> *)component2 __attribute__((swift_name("component2()")));
-- (NSArray<DataDomainClassificationModel *> *)component3 __attribute__((swift_name("component3()")));
-- (NSArray<DataDomainClassificationModel *> *)component4 __attribute__((swift_name("component4()")));
-- (NSArray<DataDomainClassificationModel *> *)component5 __attribute__((swift_name("component5()")));
-- (NSString *)component6 __attribute__((swift_name("component6()")));
-- (DataDomainStageClassificationModel *)doCopyMountain:(NSArray<DataDomainClassificationModel *> *)mountain team:(NSArray<DataDomainClassificationModel *> *)team general:(NSArray<DataDomainClassificationModel *> *)general regularity:(NSArray<DataDomainClassificationModel *> *)regularity stageClassification:(NSArray<DataDomainClassificationModel *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("doCopy(mountain:team:general:regularity:stageClassification:stage:)")));
+__attribute__((swift_name("UsecaseSetStageAsFavoriteParam")))
+@interface DataUsecaseSetStageAsFavoriteParam : DataBase
+- (instancetype)initWithUsername:(NSString *)username stageId:(int32_t)stageId favouriteState:(BOOL)favouriteState __attribute__((swift_name("init(username:stageId:favouriteState:)"))) __attribute__((objc_designated_initializer));
+- (NSString *)component1 __attribute__((swift_name("component1()")));
+- (int32_t)component2 __attribute__((swift_name("component2()")));
+- (BOOL)component3 __attribute__((swift_name("component3()")));
+- (DataUsecaseSetStageAsFavoriteParam *)doCopyUsername:(NSString *)username stageId:(int32_t)stageId favouriteState:(BOOL)favouriteState __attribute__((swift_name("doCopy(username:stageId:favouriteState:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
 - (NSString *)description __attribute__((swift_name("description()")));
-@property NSArray<DataDomainClassificationModel *> *general __attribute__((swift_name("general")));
-@property NSArray<DataDomainClassificationModel *> *mountain __attribute__((swift_name("mountain")));
-@property NSArray<DataDomainClassificationModel *> *regularity __attribute__((swift_name("regularity")));
-@property NSString *stage __attribute__((swift_name("stage")));
-@property NSArray<DataDomainClassificationModel *> *stageClassification __attribute__((swift_name("stageClassification")));
-@property NSArray<DataDomainClassificationModel *> *team __attribute__((swift_name("team")));
+@property (readonly) BOOL favouriteState __attribute__((swift_name("favouriteState")));
+@property (readonly) int32_t stageId __attribute__((swift_name("stageId")));
+@property (readonly) NSString *username __attribute__((swift_name("username")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
-__attribute__((swift_name("DomainClassificationModel")))
-@interface DataDomainClassificationModel : DataBase
+__attribute__((swift_name("DomainRankeableStage")))
+@interface DataDomainRankeableStage : DataBase
+- (instancetype)initWithId:(int32_t)id voters:(NSArray<NSString *> *)voters __attribute__((swift_name("init(id:voters:)"))) __attribute__((objc_designated_initializer));
+- (int32_t)component1 __attribute__((swift_name("component1()")));
+- (NSArray<NSString *> *)component2 __attribute__((swift_name("component2()")));
+- (DataDomainRankeableStage *)doCopyId:(int32_t)id voters:(NSArray<NSString *> *)voters __attribute__((swift_name("doCopy(id:voters:)")));
+- (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
+- (NSUInteger)hash __attribute__((swift_name("hash()")));
+- (NSString *)description __attribute__((swift_name("description()")));
+@property (readonly) int32_t id __attribute__((swift_name("id")));
+@property (readonly) NSArray<NSString *> *voters __attribute__((swift_name("voters")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("DomainStageClassification")))
+@interface DataDomainStageClassification : DataBase
+- (instancetype)initWithMountain:(NSArray<DataDomainClassification *> *)mountain team:(NSArray<DataDomainClassification *> *)team general:(NSArray<DataDomainClassification *> *)general regularity:(NSArray<DataDomainClassification *> *)regularity stageClassification:(NSArray<DataDomainClassification *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("init(mountain:team:general:regularity:stageClassification:stage:)"))) __attribute__((objc_designated_initializer));
+- (NSArray<DataDomainClassification *> *)component1 __attribute__((swift_name("component1()")));
+- (NSArray<DataDomainClassification *> *)component2 __attribute__((swift_name("component2()")));
+- (NSArray<DataDomainClassification *> *)component3 __attribute__((swift_name("component3()")));
+- (NSArray<DataDomainClassification *> *)component4 __attribute__((swift_name("component4()")));
+- (NSArray<DataDomainClassification *> *)component5 __attribute__((swift_name("component5()")));
+- (NSString *)component6 __attribute__((swift_name("component6()")));
+- (DataDomainStageClassification *)doCopyMountain:(NSArray<DataDomainClassification *> *)mountain team:(NSArray<DataDomainClassification *> *)team general:(NSArray<DataDomainClassification *> *)general regularity:(NSArray<DataDomainClassification *> *)regularity stageClassification:(NSArray<DataDomainClassification *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("doCopy(mountain:team:general:regularity:stageClassification:stage:)")));
+- (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
+- (NSUInteger)hash __attribute__((swift_name("hash()")));
+- (NSString *)description __attribute__((swift_name("description()")));
+@property NSArray<DataDomainClassification *> *general __attribute__((swift_name("general")));
+@property NSArray<DataDomainClassification *> *mountain __attribute__((swift_name("mountain")));
+@property NSArray<DataDomainClassification *> *regularity __attribute__((swift_name("regularity")));
+@property NSString *stage __attribute__((swift_name("stage")));
+@property NSArray<DataDomainClassification *> *stageClassification __attribute__((swift_name("stageClassification")));
+@property NSArray<DataDomainClassification *> *team __attribute__((swift_name("team")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("DomainClassification")))
+@interface DataDomainClassification : DataBase
 - (instancetype)initWithTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("init(time:country:team:pos:rider:)"))) __attribute__((objc_designated_initializer));
 - (NSString * _Nullable)component1 __attribute__((swift_name("component1()")));
 - (NSString * _Nullable)component2 __attribute__((swift_name("component2()")));
 - (NSString * _Nullable)component3 __attribute__((swift_name("component3()")));
 - (NSString * _Nullable)component4 __attribute__((swift_name("component4()")));
 - (NSString * _Nullable)component5 __attribute__((swift_name("component5()")));
-- (DataDomainClassificationModel *)doCopyTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("doCopy(time:country:team:pos:rider:)")));
+- (DataDomainClassification *)doCopyTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("doCopy(time:country:team:pos:rider:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
 - (NSString *)description __attribute__((swift_name("description()")));
@@ -276,5 +346,6 @@ __attribute__((swift_name("DomainClassificationModel")))
 @property NSString * _Nullable time __attribute__((swift_name("time")));
 @end;
 
+#pragma pop_macro("_Nullable_result")
 #pragma clang diagnostic pop
 NS_ASSUME_NONNULL_END
