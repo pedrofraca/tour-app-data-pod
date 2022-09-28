@@ -1,0 +1,6 @@
+framework module usecase {
+    umbrella header "usecase.h"
+
+    export *
+    module * { export * }
+}

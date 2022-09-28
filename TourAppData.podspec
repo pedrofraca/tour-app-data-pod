@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "TourAppData"
-  spec.version      = "0.0.9"
+  spec.version      = "0.0.14"
   spec.summary      = "A short description of TourApp."
 
   # This description is used to generate tags and improve search results.
@@ -90,9 +90,9 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.public_header_files = "data.framework/Headers/*.h"
-  spec.source_files = "data.framework/Headers/*.h"
-  spec.vendored_frameworks = "data.framework"
+  spec.public_header_files = "usecase.framework/Headers/*.h"
+  spec.source_files = "usecase.framework/Headers/*.h"
+  spec.vendored_frameworks = "usecase.framework"
 
   # spec.public_header_files = "Classes/**/*.h"
 

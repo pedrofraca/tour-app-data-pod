@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleExecutable</key>
-    <string>data</string>
+    <string>usecase</string>
     <key>CFBundleIdentifier</key>
-    <string>io.github.pedrofraca.data.datasource.data</string>
+    <string>io.github.pedrofraca.domain.usecase.usecase</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>data</string>
+    <string>usecase</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>CFBundleShortVersionString</key>
