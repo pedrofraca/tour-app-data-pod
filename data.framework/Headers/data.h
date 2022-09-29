@@ -244,18 +244,18 @@ __attribute__((swift_name("DomainStage")))
 @interface DataDomainStage : DataBase
 - (instancetype)initWithName:(NSString *)name stage:(int32_t)stage winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("init(name:stage:winner:leader:images:description:km:imgUrl:profileImgUrl:date:averageSpeed:startFinish:)"))) __attribute__((objc_designated_initializer));
 - (BOOL)completed __attribute__((swift_name("completed()")));
-- (NSString *)component1 __attribute__((swift_name("component1()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component10 __attribute__((swift_name("component10()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component11 __attribute__((swift_name("component11()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component12 __attribute__((swift_name("component12()"))) __attribute__((deprecated("use corresponding property instead")));
-- (int32_t)component2 __attribute__((swift_name("component2()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component3 __attribute__((swift_name("component3()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component4 __attribute__((swift_name("component4()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<NSString *> * _Nullable)component5 __attribute__((swift_name("component5()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component6 __attribute__((swift_name("component6()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component7 __attribute__((swift_name("component7()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component8 __attribute__((swift_name("component8()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component9 __attribute__((swift_name("component9()"))) __attribute__((deprecated("use corresponding property instead")));
+- (NSString *)component1 __attribute__((swift_name("component1()")));
+- (NSString * _Nullable)component10 __attribute__((swift_name("component10()")));
+- (NSString * _Nullable)component11 __attribute__((swift_name("component11()")));
+- (NSString * _Nullable)component12 __attribute__((swift_name("component12()")));
+- (int32_t)component2 __attribute__((swift_name("component2()")));
+- (NSString * _Nullable)component3 __attribute__((swift_name("component3()")));
+- (NSString * _Nullable)component4 __attribute__((swift_name("component4()")));
+- (NSArray<NSString *> * _Nullable)component5 __attribute__((swift_name("component5()")));
+- (NSString * _Nullable)component6 __attribute__((swift_name("component6()")));
+- (NSString * _Nullable)component7 __attribute__((swift_name("component7()")));
+- (NSString * _Nullable)component8 __attribute__((swift_name("component8()")));
+- (NSString * _Nullable)component9 __attribute__((swift_name("component9()")));
 - (DataDomainStage *)doCopyName:(NSString *)name stage:(int32_t)stage winner:(NSString * _Nullable)winner leader:(NSString * _Nullable)leader images:(NSArray<NSString *> * _Nullable)images description:(NSString * _Nullable)description km:(NSString * _Nullable)km imgUrl:(NSString * _Nullable)imgUrl profileImgUrl:(NSString * _Nullable)profileImgUrl date:(NSString * _Nullable)date averageSpeed:(NSString * _Nullable)averageSpeed startFinish:(NSString * _Nullable)startFinish __attribute__((swift_name("doCopy(name:stage:winner:leader:images:description:km:imgUrl:profileImgUrl:date:averageSpeed:startFinish:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
@@ -278,9 +278,9 @@ __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("UsecaseSetStageAsFavoriteParam")))
 @interface DataUsecaseSetStageAsFavoriteParam : DataBase
 - (instancetype)initWithUsername:(NSString *)username stageId:(int32_t)stageId favouriteState:(BOOL)favouriteState __attribute__((swift_name("init(username:stageId:favouriteState:)"))) __attribute__((objc_designated_initializer));
-- (NSString *)component1 __attribute__((swift_name("component1()"))) __attribute__((deprecated("use corresponding property instead")));
-- (int32_t)component2 __attribute__((swift_name("component2()"))) __attribute__((deprecated("use corresponding property instead")));
-- (BOOL)component3 __attribute__((swift_name("component3()"))) __attribute__((deprecated("use corresponding property instead")));
+- (NSString *)component1 __attribute__((swift_name("component1()")));
+- (int32_t)component2 __attribute__((swift_name("component2()")));
+- (BOOL)component3 __attribute__((swift_name("component3()")));
 - (DataUsecaseSetStageAsFavoriteParam *)doCopyUsername:(NSString *)username stageId:(int32_t)stageId favouriteState:(BOOL)favouriteState __attribute__((swift_name("doCopy(username:stageId:favouriteState:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
@@ -294,8 +294,8 @@ __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainRankeableStage")))
 @interface DataDomainRankeableStage : DataBase
 - (instancetype)initWithId:(int32_t)id voters:(NSArray<NSString *> *)voters __attribute__((swift_name("init(id:voters:)"))) __attribute__((objc_designated_initializer));
-- (int32_t)component1 __attribute__((swift_name("component1()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<NSString *> *)component2 __attribute__((swift_name("component2()"))) __attribute__((deprecated("use corresponding property instead")));
+- (int32_t)component1 __attribute__((swift_name("component1()")));
+- (NSArray<NSString *> *)component2 __attribute__((swift_name("component2()")));
 - (DataDomainRankeableStage *)doCopyId:(int32_t)id voters:(NSArray<NSString *> *)voters __attribute__((swift_name("doCopy(id:voters:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
@@ -308,12 +308,12 @@ __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainStageClassification")))
 @interface DataDomainStageClassification : DataBase
 - (instancetype)initWithMountain:(NSArray<DataDomainClassification *> *)mountain team:(NSArray<DataDomainClassification *> *)team general:(NSArray<DataDomainClassification *> *)general regularity:(NSArray<DataDomainClassification *> *)regularity stageClassification:(NSArray<DataDomainClassification *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("init(mountain:team:general:regularity:stageClassification:stage:)"))) __attribute__((objc_designated_initializer));
-- (NSArray<DataDomainClassification *> *)component1 __attribute__((swift_name("component1()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<DataDomainClassification *> *)component2 __attribute__((swift_name("component2()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<DataDomainClassification *> *)component3 __attribute__((swift_name("component3()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<DataDomainClassification *> *)component4 __attribute__((swift_name("component4()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSArray<DataDomainClassification *> *)component5 __attribute__((swift_name("component5()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString *)component6 __attribute__((swift_name("component6()"))) __attribute__((deprecated("use corresponding property instead")));
+- (NSArray<DataDomainClassification *> *)component1 __attribute__((swift_name("component1()")));
+- (NSArray<DataDomainClassification *> *)component2 __attribute__((swift_name("component2()")));
+- (NSArray<DataDomainClassification *> *)component3 __attribute__((swift_name("component3()")));
+- (NSArray<DataDomainClassification *> *)component4 __attribute__((swift_name("component4()")));
+- (NSArray<DataDomainClassification *> *)component5 __attribute__((swift_name("component5()")));
+- (NSString *)component6 __attribute__((swift_name("component6()")));
 - (DataDomainStageClassification *)doCopyMountain:(NSArray<DataDomainClassification *> *)mountain team:(NSArray<DataDomainClassification *> *)team general:(NSArray<DataDomainClassification *> *)general regularity:(NSArray<DataDomainClassification *> *)regularity stageClassification:(NSArray<DataDomainClassification *> *)stageClassification stage:(NSString *)stage __attribute__((swift_name("doCopy(mountain:team:general:regularity:stageClassification:stage:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
@@ -330,11 +330,11 @@ __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("DomainClassification")))
 @interface DataDomainClassification : DataBase
 - (instancetype)initWithTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("init(time:country:team:pos:rider:)"))) __attribute__((objc_designated_initializer));
-- (NSString * _Nullable)component1 __attribute__((swift_name("component1()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component2 __attribute__((swift_name("component2()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component3 __attribute__((swift_name("component3()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component4 __attribute__((swift_name("component4()"))) __attribute__((deprecated("use corresponding property instead")));
-- (NSString * _Nullable)component5 __attribute__((swift_name("component5()"))) __attribute__((deprecated("use corresponding property instead")));
+- (NSString * _Nullable)component1 __attribute__((swift_name("component1()")));
+- (NSString * _Nullable)component2 __attribute__((swift_name("component2()")));
+- (NSString * _Nullable)component3 __attribute__((swift_name("component3()")));
+- (NSString * _Nullable)component4 __attribute__((swift_name("component4()")));
+- (NSString * _Nullable)component5 __attribute__((swift_name("component5()")));
 - (DataDomainClassification *)doCopyTime:(NSString * _Nullable)time country:(NSString * _Nullable)country team:(NSString * _Nullable)team pos:(NSString * _Nullable)pos rider:(NSString * _Nullable)rider __attribute__((swift_name("doCopy(time:country:team:pos:rider:)")));
 - (BOOL)isEqual:(id _Nullable)other __attribute__((swift_name("isEqual(_:)")));
 - (NSUInteger)hash __attribute__((swift_name("hash()")));
